@@ -44,7 +44,7 @@ class SatelliteImage(object):
 
         ''' 
         This instance method computes NDVI = (NIR - red)/(red + NIR)
-        The NDVI image is returned as a 2D numpy array. 
+        The NDVI image is returned as a 2D numpy array.
         '''
 
         with warn.catch_warnings():
@@ -57,7 +57,7 @@ class SatelliteImage(object):
 
         ''' 
         This instance method writes out a Geotiff file. The inputs 
-        are an img (a Numpy array) and an outname ('.tif'). 
+        are an image (a Numpy array, 2D or 3D) and an outname (should end in '.tif'). 
         ''' 
 
         # ---- check inputs, crate GDAL driver object for writing out Geotiff 
