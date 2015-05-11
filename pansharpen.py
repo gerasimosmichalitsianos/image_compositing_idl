@@ -71,9 +71,9 @@ class SatelliteImage(object):
         
         # ---- compute the numpy of data layers 
         if len(img.shape) == 3: 
-            nbands = 1 
-        else: 
             nbands = img.shape[0]
+        else: 
+            nbands = 1
 
         if img.shape == self.pan.shape:
 
