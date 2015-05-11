@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 import os
 import sys
@@ -23,6 +24,13 @@ class SatelliteImage(object):
     
     def __init__(self, dspan, dsmulti, red, green, blue, nir, pan):
 
+        '''
+        This method allows for the initialization of a 
+        SatelliteImage object. The dspan and dsmulti arguments 
+        should be GDAL objects (as in dspan = gdal.Open('pan.tif') for example). 
+        The red, green, blue, nir, and pan arguments should be 2D numpy arrays. 
+        '''
+
         # ---- instantiate regular bands arrays, GDAL objects for map info. 
         self.red = red
         self.green = green
@@ -33,10 +41,12 @@ class SatelliteImage(object):
         self.dsmulti = dsmulti 
 
     def ndvi(self):
-      '''
-      Compute NDVI = (NIR-red)/(NIR+red)
-      Good for mapping vegetation. 
-      '''
+
+        ''' 
+        This instance method computes NDVI = (NIR - red)/(red + NIR)
+        The NDVI image is returned as a 2D numpy array. 
+        '''
+
         with warn.catch_warnings():
             warn.filterwarnings('ignore',category=RuntimeWarning)
             fltred = np.array(self.red,dtype=np.float32)
@@ -44,42 +54,70 @@ class SatelliteImage(object):
             return (fltnir - fltred)/(fltred + fltnir)
 
     def saveimg(self, img, outname):
-      
-        '''
-        This method uses GDAL tools to save a 1-band Geotiff. The input argument
-        'img' should be a 2D numpy array. Outname should be a string ending in ".tif." 
-        '''
-      
+
+        ''' 
+        This instance method writes out a Geotiff file. The inputs 
+        are an img (a Numpy array) and an outname ('.tif'). 
+        ''' 
+
+        # ---- check inputs, crate GDAL driver object for writing out Geotiff 
         driv = gdal.GetDriverByName('GTiff')
+        if not outname.endswith('.tif'): 
+            outname=outname+'.tif'
+        elif not ('str' not in str(type(outname))): 
+            raise TypeError('saveimg(img,outname): second argument should be a string (.tif)')
+        elif not ('numpy.ndarray' not in str(type(img))): 
+            raise TypeError('saveimg(img,outname): first argument should be a Numpy array')
+        
+        # ---- compute the numpy of data layers 
+        if len(img.shape) == 3: 
+            nbands = 1 
+        else: 
+            nbands = img.shape[0]
+
         if img.shape == self.pan.shape:
-            dst = driv.Create(outname, self.dspan.RasterXSize, self.dspan.RasterYSize, 1, gdal.GDT_Float32)
+
+            dst = driv.Create(outname, self.dspan.RasterXSize, self.dspan.RasterYSize, nbands, gdal.GDT_Float32)
             dst.SetGeoTransform(self.dspan.GetGeoTransform())
             dst.SetProjection(self.dspan.GetProjection())
-            dst.GetRasterBand(1).WriteArray(img)
-            dst=None
-            del dst
+            if nbands == 1: 
+                dst.GetRasterBand(1).WriteArray(img)
+            else: 
+                for band in range(0,img.shape[0]+1): 
+                    dst.GetRasterBand(band+1).WriteArray(img[band,:,:])
+
         elif img.shape == self.red.shape:
-            dst = driv.Create(outname, self.dsmulti.RasterXSize, self.dsmulti.RasterYSize, 1, gdal.GDT_Float32)
+
+            dst = driv.Create(outname, self.dsmulti.RasterXSize, self.dsmulti.RasterYSize, nbands, gdal.GDT_Float32)
             dst.SetGeoTransform(self.dsmulti.GetGeoTransform())
             dst.SetProjection(self.dsmulti.GetProjection())
+
+        if nbands == 1: 
             dst.GetRasterBand(1).WriteArray(img)
-            dst=None
-            del dst
+        else: 
+            for band in range(0,img.shape[0]+1): 
+                dst.GetRasterBand(band+1).WriteArray(img[band,:,:])
+
+        dst=None
+        del dst
 
     def pcasharpen(self,band):
-      
-        """ 
-        This method uses the method of principal component analysis (PCA) 
-        to perform pan-sharpening of multispectral imagery. The argument 
-        'band' should be 'red' if one wants a pan-sharpened red image 
-        returned, 'green' if one wants a pan-sharpened green image returned,
-        'nir' if one wants a pan-sharpened NIR image returned, and 'blue' if
-        one wants a pan-sharpened blue image returned. 
         
-        """
+        ''' 
+        This method performs principal component analysis (PCA) 
+        pan sharpening. The only argument should specify which 
+        band the user wants returned as a Numpy array, as in 
+        'red' for the pan-sharpened red Numpy array, 'blue' 
+        for the pan-sharpened blue array, 'nir' for the
+        pan-sharpened NIR array. 
+        ''' 
+        
+        if 'str' not in str(type(band)): 
+            raise TypeError("pcasharpen('red/green/blue/nir') should be a string")
+        else: 
+            band = band.lower() 
 
         nrows,ncols = self.pan.shape
-
         redresized   = np.array(imresize(self.red, self.pan.shape, 'nearest'), dtype = np.float32)
         nirresized   = np.array(imresize(self.nir, self.pan.shape, 'nearest'), dtype = np.float32)
         blueresized  = np.array(imresize(self.blue, self.pan.shape, 'nearest'), dtype = np.float32)
