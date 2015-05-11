@@ -12,9 +12,9 @@ class SatelliteImage(object):
 
     """ 
     This general class contains various methods that act on typical satellite 
-    imagery. This class makes use coarser red, green, blue, NIR, and 
-    panchromatic bands. Methods include Brovey and PCA pan-sharpening 
-    methods, NDVI, and other attributes. 
+    imagery. This class makes use coarser red, green, blue, and NIR, bands, as well as 
+    the finer panchromatic band. Methods include Brovey and PCA pan-sharpening 
+    methods, NDVI, and other attributes. More to come. 
 
     @author: 
     Gerasimos Andreas Michalitsianos 
