@@ -95,8 +95,7 @@ class SatelliteImage(object):
         if nbands == 1: 
             dst.GetRasterBand(1).WriteArray(img)
         else: 
-            for band in range(0,img.shape[0]+1): 
-                dst.GetRasterBand(band+1).WriteArray(img[band,:,:])
+            for band in range(0,img.shape[0]): dst.GetRasterBand(band+1).WriteArray(img[band,:,:])
 
         dst=None
         del dst
