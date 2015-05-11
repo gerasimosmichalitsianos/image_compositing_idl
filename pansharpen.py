@@ -80,11 +80,6 @@ class SatelliteImage(object):
             dst = driv.Create(outname, self.dspan.RasterXSize, self.dspan.RasterYSize, nbands, gdal.GDT_Float32)
             dst.SetGeoTransform(self.dspan.GetGeoTransform())
             dst.SetProjection(self.dspan.GetProjection())
-            if nbands == 1: 
-                dst.GetRasterBand(1).WriteArray(img)
-            else: 
-                for band in range(0,img.shape[0]+1): 
-                    dst.GetRasterBand(band+1).WriteArray(img[band,:,:])
 
         elif img.shape == self.red.shape:
 
