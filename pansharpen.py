@@ -51,7 +51,9 @@ class SatelliteImage(object):
             warn.filterwarnings('ignore',category=RuntimeWarning)
             fltred = np.array(self.red,dtype=np.float32)
             fltnir = np.array(self.nir,dtype=np.float32)
-            return (fltnir - fltred)/(fltred + fltnir)
+            ndvi = (fltnir - fltred)/(fltred + fltnir)
+            ndvi[np.isnan(ndvi)] = 0.0
+            return ndvi 
 
     def saveimg(self, img, outname):
 
