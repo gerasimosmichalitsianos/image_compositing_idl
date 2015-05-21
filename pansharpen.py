@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 import os
 import sys
@@ -11,7 +10,7 @@ from scipy.misc import imresize
 
 class SatelliteImage(object):
 
-    """ 
+    '''
     This general class contains various methods that act on typical satellite 
     imagery. This class makes use coarser red, green, blue, and NIR, bands, as well as 
     the finer panchromatic band. Methods include Brovey and PCA pan-sharpening 
@@ -20,7 +19,7 @@ class SatelliteImage(object):
     Gerasimos Andreas Michalitsianos 
     gerasimosmichalitsianos@gmail.com 
     May 2015 
-    """ 
+    '''
     
     def __init__(self, dspan, dsmulti, red, green, blue, nir, pan):
 
@@ -90,9 +89,46 @@ class SatelliteImage(object):
         if nbands == 1: 
             dst.GetRasterBand(1).WriteArray(img)
         else: 
-            for band in range(img.shape[0]): dst.GetRasterBand(band+1).WriteArray(img[band,:,:])
+            for band in range(img.shape[0]): 
+                dst.GetRasterBand(band+1).WriteArray(img[band,:,:])
         dst=None
         del dst
+
+    def broveySharpen(self): 
+
+        '''
+        This method implements the Brovey pansharpening method. 
+        '''
+
+        with warn.catch_warnings():
+
+            warn.filterwarnings('ignore',category=RuntimeWarning)
+            redweight   = 0.95
+            greenweight = 0.7
+            blueweight  = 0.5
+            nirweight   = 1.0 
+
+            nrows,ncols = self.pan.shape
+            panfloat     = np.array(self.pan, dtype = np.float32)
+            redresized   = np.array(imresize(self.red, self.pan.shape, 'nearest'), dtype = np.float32)
+            nirresized   = np.array(imresize(self.nir, self.pan.shape, 'nearest'), dtype = np.float32)
+            blueresized  = np.array(imresize(self.blue, self.pan.shape, 'nearest'), dtype = np.float32)
+            greenresized = np.array(imresize(self.green, self.pan.shape, 'nearest'), dtype = np.float32)
+
+            dnf = (panfloat - (nirweight*nirresized))/((redweight*redresized) + (greenweight*greenresized) + (blueweight*blueresized))
+            dnf[np.isnan(dnf)]=0.0
+            Rfin = np.multiply(redresized, dnf)
+            Gfin = np.multiply(greenresized, dnf)
+            Bfin = np.multiply(blueresized, dnf)
+            NIRfin = np.multiply(nirresized, dnf)
+
+            # ---- return 3D numpy array holding pan-sharpened RGB,NIR bands (4 layers)
+            outsharpened = np.zeros((4,Rfin.shape[0],Rfin.shape[1]), dtype = np.float32)
+            outsharpened[0,:,:] = Bfin
+            outsharpened[1,:,:] = Gfin
+            outsharpened[2,:,:] = Rfin
+            outsharpened[3,:,:] = NIRfin
+            return outsharpened
 
     def ihsSharpen(self):
 
@@ -146,7 +182,6 @@ class SatelliteImage(object):
         Source paper: 
         An IHS-Based Fusion for Color Distortion Reduction and Vegetation Enhancement in IKONOS Imagery 
         http://pgembeddedsystems.com/download/matlab/An%20IHS-Based%20Fusion%20for%20Color%20Distortion%20Reduction.pdf
-        
         '''
 
         panfloat     = np.array(self.pan, dtype = np.float32)
@@ -250,8 +285,8 @@ class SatelliteImage(object):
 
 def main():
 
-    panfname = '24DEC05QB020800005DEC24100239-P1BS-005682967010_01_P002_________AAE_0AAAAABAAAI0_TOA-Pan.tif'
-    msfname = '24DEC05QB020800005DEC24100239-M1BS-005682967010_01_P002_________GA_E0AAAAAAGAAC0_TOA-Multispec.tif'
+    panfname = '07DEC07QB020700007DEC07095703-P1BS-005597174021_01_P023_________AAE_0AAAAABAAAK0_TOA-Pan.tif'
+    msfname = '07DEC07QB020700007DEC07095703-M1BS-005597174021_01_P023_________GA_E0AAAAAAGAAC0_TOA-Multispec.tif'
     
     dsms = gdal.Open(msfname)
     dspan = gdal.Open(panfname)
@@ -273,6 +308,9 @@ def main():
 
     fihsSharpened = satobj.fihsSharpen()
     satobj.saveimg(fihsSharpened,'fihsSharpened.tif')
+
+    broveySharpened = satobj.broveySharpen() 
+    satobj.saveimg(broveySharpened,'broveySharpened.tif')
     
 if __name__ == '__main__':
     main() 
