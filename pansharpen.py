@@ -177,11 +177,6 @@ class SatelliteImage(object):
         This method returns a pan-sharpened NDVI using the pan-sharpening 
         technique of principal component analysis. 
         ''' 
-        
-        if 'str' not in str(type(band)): 
-            raise TypeError("pcasharpen('red/green/blue/nir') should be a string")
-        else: 
-            band = band.lower() 
 
         nrows,ncols = self.pan.shape
         redresized   = np.array(imresize(self.red, self.pan.shape, 'nearest'), dtype = np.float32)
