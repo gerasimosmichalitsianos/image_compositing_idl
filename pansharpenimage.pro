@@ -56,7 +56,7 @@ pro pansharpenimage
     out_name = outname, $
     interp=2, $
     hires_fid = fidhigh, $
-    hires_pos = [0]
-  hires_dims = dimshigh
+    hires_pos = [0], $ 
+    hires_dims = dimshigh
 
 end 
