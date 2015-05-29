@@ -11,8 +11,8 @@ pro pansharpenimage
   ; 
   ; usage for pan sharpening: 
   ; $ idl # start IDL
-  ; IDL> .compile pansharpenImage
-  ; IDL> pansharpenImage
+  ; IDL> .compile pansharpenimage
+  ; IDL> pansharpenimage
   ; 
   ; @author: 
   ; Gerasimos Michalitsianos 
