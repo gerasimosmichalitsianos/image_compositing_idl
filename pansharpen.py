@@ -129,7 +129,7 @@ def main():
    methods. This script actually breaks down the 
    panchromatic file and multispectral file into small tiles first
    (for the sake of not producing a MemoryError in Python). 
-   From these, pan-sharpend Brovey/FIHS geotiff image files 
+   From these, pan-sharpend Brovey/FIHS tile geotiff image files 
    are produced, and in the end, they are all put together 
    in 2 large single mosaic 4-band, pan-sharpened Geotiff 
    image files, one for Brovey, one for FIHS methods). 
