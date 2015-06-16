@@ -23,6 +23,10 @@ def resampleBicubic(srcImageFilename, sourceds, matchds, outname):
    called, it produces the resampled, 4-band (RGB,NIR) multispectral 
    Geotiff image file. 
    
+   @author: Gerasimos Michalitsianos
+   Science Systems and Applications, Inc. 
+   June 2015 
+   
    '''
 
 
@@ -52,6 +56,10 @@ def writeImg(imgs, outname, dspan):
    'imgs', an outname string should be provided, and
    the GDAL object dspan = gdal.Open(panfname.tif) 
    should also be provided, to extract map information. 
+   
+   @author: Gerasimos Michalitsianos
+   Science Systems and Applications, Inc. 
+   June 2015 
 
    ''' 
 
@@ -80,7 +88,12 @@ def broveySharpen(dsmulti, dspan):
    to pansharpen the Numpy arrays. The gdal objects 
    (dsmulti=gdal.Open(multifname.tif, dspan = gdal.Open(panfname.tif)
    should both be provided, so the arrays can be extracted. 
-   ''' 
+
+   @author: Gerasimos Michalitsianos
+   Science Systems and Applications, Inc. 
+   June 2015 
+   
+   '''
 
    try:
 
@@ -113,6 +126,11 @@ def fihsSharpen(dsmulti, dspan):
    to pansharpen the Numpy arrays. The gdal objects 
    (dsmulti=gdal.Open(multifname.tif, dspan = gdal.Open(panfname.tif)
    should both be provided, so the arrays can be extracted. 
+   
+   @author: Gerasimos Michalitsianos
+   Science Systems and Applications, Inc. 
+   June 2015 
+   
    ''' 
 
    try:
