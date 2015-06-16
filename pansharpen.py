@@ -149,7 +149,7 @@ def main():
    Scipy 
    
    usage: 
-   $ python pansharpen.py panfname.tif 
+   $ python pansharpen.py panfname.tif multifname.tif 
 
    @author: Gerasimos Michalitsianos
    Science Systems and Applications, Inc. 
