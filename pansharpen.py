@@ -135,13 +135,13 @@ def main():
    Geotiff file is then created when this script is run. 
    When this script is run, it produces pan-sharpened multispectral 
    Geotiff files (2 of them), using both the Brovey and fast 
-   intensity-hue-saturation (FIHS) methods. This script actually]
+   intensity-hue-saturation (FIHS) methods. This script actually
    breaks down the panchromatic file and multispectral file into 
    small tiles first (for the sake of not producing a MemoryError 
    in Python). From these, pan-sharpend Brovey/FIHS geotiff image files 
    are produced, and in the end, they are all put together 
    in 2 large single mosaic 4-band, pan-sharpened Geotiff 
-   image files, one for Brovey, one for FIHS methods). 
+   image files (one for Brovey, one for FIHS methods). 
 
    Note: The following software packages should be installed: 
    GDAL/OGR (including gdal_merge.py, gdal_retile.py) 
