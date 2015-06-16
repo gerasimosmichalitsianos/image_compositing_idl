@@ -322,6 +322,7 @@ def main():
                   mosaicCmdListBrovey.extend([mosaicCmdBrovey])
                   mosaicCmdListBrovey.extend(outputTileNamesBrovey)
                   mosaicCmdBrovey = ' '.join(mosaicCmdListBrovey)
+                  mosaicCmdBrovey = mosaicCmdBrovey+' > logfile.txt'
                   if not os.path.exists(fulloutnamebrovey): os.system(mosaicCmdBrovey)
 
                   mosaicCmdFIHS = gdalMergeLocation+' -o ' + fulloutnamefihs + ' -of GTiff '
@@ -329,9 +330,11 @@ def main():
                   mosaicCmdListFIHS.extend([mosaicCmdFIHS])
                   mosaicCmdListFIHS.extend(outputTileNamesFIHS)
                   mosaicCmdFIHS = ' '.join(mosaicCmdListFIHS)
+                  mosaicCmdFIHS = mosaicCmdFIHS + ' > logfile.txt'
                   if not os.path.exists(fulloutnamefihs): os.system(mosaicCmdFIHS)
 
                # ---- clean up some files we don't need anymore
+               os.remove('logfile.txt')
                for n in range(len(outputTileNamesBrovey)):
                   os.remove(outputTileNamesBrovey[n])
                   os.remove(outputTileNamesFIHS[n])
