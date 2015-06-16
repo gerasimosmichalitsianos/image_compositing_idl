@@ -3,6 +3,7 @@ import os
 import sys
 import gc 
 import numpy as np
+import warnings as warn 
 from osgeo import osr, gdal, gdalconst
 
 gdalRetileLocation = '/usr/bin/gdal_retile.py'
@@ -263,48 +264,45 @@ def main():
                   dsmulti_tile = gdal.Open(tilenametiff)
                   dspan_tile   = gdal.Open(tilenametiffPan)
 
-                  with warn.catch_warnings():
-                     warn.filterwarnings('ignore',category=FutureWarning)
+                  imgsBrovey = broveySharpen(dsmulti_tile, dspan_tile)
+                  if None not in imgsBrovey:
+                     writeImg(imgsBrovey, outputNameTileBrovey, dspan_tile)
+                     outputTileNamesBrovey.append(outputNameTileBrovey)
+                     del imgsBrovey
+                     gc.collect() 
 
-                     imgsBrovey = broveySharpen(dsmulti_tile, dspan_tile)
-                     if None not in imgsBrovey:
-                        writeImg(imgsBrovey, outputNameTileBrovey, dspan_tile)
-                        outputTileNamesBrovey.append(outputNameTileBrovey)
-                        del imgsBrovey
-                        gc.collect() 
+                  imgsFIHS = fihsSharpen(dsmulti_tile, dspan_tile)
+                  if None not in imgsFIHS:
+                     writeImg(imgsFIHS, outputNameTileFIHS, dspan_tile)
+                     outputTileNamesFIHS.append(outputNameTileFIHS)
+                     del imgsFIHS
+                     gc.collect()
 
-                     imgsFIHS = fihsSharpen(dsmulti_tile, dspan_tile)
-                     if None not in imgsFIHS:
-                        writeImg(imgsFIHS, outputNameTileFIHS, dspan_tile)
-                        outputTileNamesFIHS.append(outputNameTileFIHS)
-                        del imgsFIHS
-                        gc.collect()
+                  if os.path.exists(outputNameTileFIHS) and os.path.exists(outputNameTileBrovey):
+                     os.remove(tilenametiff)
+                     os.remove(tilenametiffPan)
 
-                     if os.path.exists(outputNameTileFIHS) and os.path.exists(outputNameTileBrovey):
-                        os.remove(tilenametiff)
-                        os.remove(tilenametiffPan)
+               if len(outputTileNamesBrovey)>0 and len(outputTileNamesFIHS)>0 and (len(outputTileNamesBrovey)==len(outputTileNamesFIHS)):
 
-                  if len(outputTileNamesBrovey)>0 and len(outputTileNamesFIHS)>0 and (len(outputTileNamesBrovey)==len(outputTileNamesFIHS)):
+                  # ---- now we need to take all pan-sharpened FIHS/Brovey tiles, and mosaic them ... using gdal_merge
+                  mosaicCmdBrovey = gdalMergeLocation+' -o ' + fulloutnamebrovey + ' -of GTiff '
+                  mosaicCmdListBrovey = []
+                  mosaicCmdListBrovey.extend([mosaicCmdBrovey])
+                  mosaicCmdListBrovey.extend(outputTileNamesBrovey)
+                  mosaicCmdBrovey = ' '.join(mosaicCmdListBrovey)
+                  if not os.path.exists(fulloutnamebrovey): os.system(mosaicCmdBrovey)
 
-                     # ---- now we need to take all pan-sharpened FIHS/Brovey tiles, and mosaic them ... using gdal_merge
-                     mosaicCmdBrovey = gdalMergeLocation+' -o ' + fulloutnamebrovey + ' -of GTiff '
-                     mosaicCmdListBrovey = []
-                     mosaicCmdListBrovey.extend([mosaicCmdBrovey])
-                     mosaicCmdListBrovey.extend(outputTileNamesBrovey)
-                     mosaicCmdBrovey = ' '.join(mosaicCmdListBrovey)
-                     if not os.path.exists(fulloutnamebrovey): os.system(mosaicCmdBrovey)
+                  mosaicCmdFIHS = gdalMergeLocation+' -o ' + fulloutnamefihs + ' -of GTiff '
+                  mosaicCmdListFIHS = []
+                  mosaicCmdListFIHS.extend([mosaicCmdFIHS])
+                  mosaicCmdListFIHS.extend(outputTileNamesFIHS)
+                  mosaicCmdFIHS = ' '.join(mosaicCmdListFIHS)
+                  if not os.path.exists(fulloutnamefihs): os.system(mosaicCmdFIHS)
 
-                     mosaicCmdFIHS = gdalMergeLocation+' -o ' + fulloutnamefihs + ' -of GTiff '
-                     mosaicCmdListFIHS = []
-                     mosaicCmdListFIHS.extend([mosaicCmdFIHS])
-                     mosaicCmdListFIHS.extend(outputTileNamesFIHS)
-                     mosaicCmdFIHS = ' '.join(mosaicCmdListFIHS)
-                     if not os.path.exists(fulloutnamefihs): os.system(mosaicCmdFIHS)
-
-                  # ---- clean up some files we don't need anymore
-                  for n in range(len(outputTileNamesBrovey)):
-                     os.remove(outputTileNamesBrovey[n])
-                     os.remove(outputTileNamesFIHS[n])
+               # ---- clean up some files we don't need anymore
+               for n in range(len(outputTileNamesBrovey)):
+                  os.remove(outputTileNamesBrovey[n])
+                  os.remove(outputTileNamesFIHS[n])
 
          except: pass 
 
