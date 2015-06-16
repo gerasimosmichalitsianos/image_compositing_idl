@@ -6,9 +6,9 @@ import gc
 import numpy as np
 from osgeo import osr, gdal, gdalconst
 
-gdalRetileLocation = '/usr/bin/bin/gdal_retile.py'
+gdalRetileLocation = '/usr/bin/gdal_retile.py'
 gdalMergeLocation = '/usr/bin/gdal_merge.py'
-pythonLocation = '/opt/PGSC/anaconda/bin/python '
+pythonLocation = '/usr/bin/python '
 
 def resampleBicubic(srcImageFilename, sourceds, matchds, outname):
 
