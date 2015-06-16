@@ -11,6 +11,20 @@ gdalMergeLocation = '/usr/bin/gdal_merge.py'
 pythonLocation = '/usr/bin/python '
 
 def resampleBicubic(srcImageFilename, sourceds, matchds, outname):
+   
+   '''
+   function resampleBicubic(srcImageFilename, sourceds, matchds, outname): 
+   This function produces a resampled, bicubic, 4-band multispectral Geotiff
+   image file. There are four input arguments. The first is the name of the 
+   panchromatic (1-band, high-resolution) Geotiff image file. The second 
+   and third input arguments are the GDAL objects produced by (for example)
+   sourceds = gdal.Open(multifname.tif) and matchds = gdal.Open(panfname.tif). 
+   The last argument is the output name (string). When this function is 
+   called, it produces the resampled, 4-band (RGB,NIR) multispectral 
+   Geotiff image file. 
+   
+   '''
+
 
    srcProjection     = sourceds.GetProjection()
    srcGeotransform   = sourceds.GetGeoTransform()
