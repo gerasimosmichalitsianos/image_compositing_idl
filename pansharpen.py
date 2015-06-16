@@ -4,7 +4,7 @@ import os
 import sys
 import gc 
 import numpy as np
-from osgeo import osr, gdal
+from osgeo import osr, gdal, gdalconst
 
 gdalRetileLocation = '/usr/bin/bin/gdal_retile.py'
 gdalMergeLocation = '/usr/bin/gdal_merge.py'
