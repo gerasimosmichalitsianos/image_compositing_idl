@@ -17,7 +17,7 @@ IDL> .compile globalcomposite
 IDL> exit
 $ idl -e "compositescenes" -args fname1.tif fname2.tif 
 
-@author: 
+@author:
 Gerasimos Michalitsianos
 Science Systems and Applications, Inc. 
 June 2015 
