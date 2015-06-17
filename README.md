@@ -13,13 +13,9 @@ $ idl
 IDL> envi
 
 IDL> .compile compositescenes
-
 IDL> .compile createtile
-
 IDL> .compile globalcomposite
-
 IDL> exit
-
 $ idl -e "compositescenes" -args fname1.tif fname2.tif 
 
 @author:
