@@ -8,7 +8,4 @@ been marked manuallywith a cloud mask or cloud-shadow mask. These IDL files just
 a pair of two 1-band Geotiff image files. Each of these images may for example, be two Band 3 image files (red band for 
 Landsat 7) from two separate scenes close to one another in date. 
 
-
-![Alt text](C:\Users\gmichali\Desktop\composited.jpg "Optional title")
-
 In this repository are three IDL files. These files have ".pro" extensions. To use this code overall, 
