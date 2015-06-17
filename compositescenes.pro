@@ -8,7 +8,9 @@ pro compositescenes, Img1, Img2, dim
   ; imagery after May 31st, 2003. The purpose of this code is to 
   ; use one image to fill in the null-data gaps in the other 
   ; image. So while pixels in one image may be null, pixel values
-  ; in the other image may contain good pixel values. 
+  ; in the other image may contain good pixel values. If the 
+  ; second image has good pixels values, these pixel values are 
+  ; normalized and are used to fill in the first image. 
   ; 
   ; This code tiles up both images into 50x50 pixel tiles, and 
   ; computes local gain and bias values so as to perform a 
@@ -17,12 +19,10 @@ pro compositescenes, Img1, Img2, dim
   ; image. If no null pixels are found in a tile (in the image to 
   ; be filled), a global gain and bias are computed and used to 
   ; compute the values of the filler pixels. Both Geotiff images 
-  ; should be from roughly the same time of year to avoid anomalies 
-  ; in the outputted composited image. To run this code, for example, 
-  ; replace the filename strings that you see below with 
-  ; whatever 1-band Geotiff files you wish to composite. 
+  ; should be from roughly the same time of year (season) to avoid anomalies 
+  ; in the outputted composited image. 
   ; 
-  ; Both IDL and ENVI must be installed to run this script. 
+  ; Both IDL (8.0+) and ENVI (4.5+) must be installed to run this script. 
   ; Be sure compositescenes.pro, createtile.pro, and 
   ; globalcomposite.pro are all present in the same directory. 
   ;
@@ -32,29 +32,44 @@ pro compositescenes, Img1, Img2, dim
   ; IDL> .compile compositescenes 
   ; IDL> .compile createtile 
   ; IDL> .compile globalcomposite 
-  ; IDL> compositescenes
+  ; IDL> exit
+  ; $ idl -e "compositescenes" -args fname1.tif fname2.tif 
   ; 
   ; @author: 
   ; Gerasimos Michalitsianos
   ; NASA/GSFC, Science Systems and Applications, Inc. 
   ; June 2015 
-
+  ; 
 
   ; navigate to appropriate directory where Geotiff files are located so IDL/ENVI may open those files
   cd,'C:\Users\gmichali\Desktop\compositing'
+  
+  ; retrieve command line arguments 
+  args   = command_line_args() 
+  fname1 = args[0]
+  fname2 = args[1]
 
   ; open up first 1-band Geotiff image, extract its map and pixel information 
-  envi_open_data_file, 'LE71850332012172ASN00_sr_band1.tif', r_fid = fid1, /tiff
+  envi_open_data_file, fname1, r_fid = fid1, /tiff
   if (fid1 eq -1) then return 
   envi_file_query, fid1, ns=xsize1, nl=ysize1, nb=nb1
   dims1 = [-1, 0, xsize1-1, 0, ysize1-1]
   proj = envi_get_projection(fid=fid1, pixel_size=ps)
   
   ; open up second 1-band Geotiff image, extract its map and pixel information
-  envi_open_data_file, 'LE71850332012188ASN00_sr_band1.tif', r_fid = fid2, /tiff
+  envi_open_data_file, fname2, r_fid = fid2, /tiff
   if (fid2 eq -1) then return 
   envi_file_query,fid2, ns=xsize2, nl=ysize2, nb=nb2
   dims2=[-1, 0, xsize2-1, 0, ysize2-1]
+  
+  ; make sure each geotiff image file has 1 single band 
+  if nb1 ne 1 then begin 
+    print,fname1 + ' should have 1 band.'
+  endif 
+  
+  if nb2 ne 1 then begin 
+    print,fname2 + ' should have 1 band.'
+  endif 
   
   ; these two images should overlap approximately same area (same Landsat tile)
   ; but they will likewise be slightly different dimensions, so we need to perform a layer-stacking
