@@ -32,6 +32,7 @@ pro compositescenes, Img1, Img2, dim
   ; IDL> .compile compositescenes 
   ; IDL> .compile createtile 
   ; IDL> .compile globalcomposite 
+  ; IDL> compositescenes
   ; 
   ; @author: 
   ; Gerasimos Michalitsianos
