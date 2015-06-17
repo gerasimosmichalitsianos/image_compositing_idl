@@ -1,4 +1,4 @@
-pro compositescenes, Img1, Img2, dim
+pro compositescenes
 
   ;
   ; This IDL script is an example of how to use IDL and ENVI 
