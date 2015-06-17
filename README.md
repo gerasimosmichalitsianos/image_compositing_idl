@@ -11,10 +11,15 @@ Landsat 7) from two separate scenes close to one another in date.
 usage: 
 $ idl 
 IDL> envi
+
 IDL> .compile compositescenes
+
 IDL> .compile createtile
+
 IDL> .compile globalcomposite
+
 IDL> exit
+
 $ idl -e "compositescenes" -args fname1.tif fname2.tif 
 
 @author:
