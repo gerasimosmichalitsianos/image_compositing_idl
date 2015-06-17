@@ -48,6 +48,17 @@ pro compositescenes
   args   = command_line_args() 
   fname1 = args[0]
   fname2 = args[1]
+  
+  ; make sure each file is a .tif image file 
+  if fname1.endswith('.tif',/fold_case) ne 1 then begin 
+    print, fname1 + ' not a Geotiff file.'
+    return 
+  endif 
+  
+  if fname2.endswith('.tif',/fold_case) ne 1 then begin 
+    print, fname2 + ' not a Geotiff file.'
+    return 
+  endif 
 
   ; open up first 1-band Geotiff image, extract its map and pixel information 
   envi_open_data_file, fname1, r_fid = fid1, /tiff
@@ -65,10 +76,12 @@ pro compositescenes
   ; make sure each geotiff image file has 1 single band 
   if nb1 ne 1 then begin 
     print,fname1 + ' should have 1 band.'
+    return
   endif 
   
   if nb2 ne 1 then begin 
     print,fname2 + ' should have 1 band.'
+    return
   endif 
   
   ; these two images should overlap approximately same area (same Landsat tile)
