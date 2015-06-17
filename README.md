@@ -9,7 +9,9 @@ a pair of two 1-band Geotiff image files. Each of these images may for example, 
 Landsat 7) from two separate scenes close to one another in date.
 
 usage: 
+
 $ idl 
+
 IDL> envi
 
 IDL> .compile compositescenes
