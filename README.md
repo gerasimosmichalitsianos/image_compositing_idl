@@ -11,7 +11,6 @@ Landsat 7) from two separate scenes close to one another in date.
 ![alt tag](file:///C:/Users/gmichali/Desktop/composited.jpg)
 
 usage: 
-
 $ idl 
 
 IDL> envi
