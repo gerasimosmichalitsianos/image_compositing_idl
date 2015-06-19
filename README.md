@@ -15,10 +15,15 @@ The left panel shows the base image (with null scanline data gaps to be filled i
 usage: 
 
 $ idl
+
 IDL> envi
+
 IDL> .compile compositescenes
+
 IDL> .compile createtile
+
 IDL> .compile globalcomposite
+
 IDL> exit
 
 $ idl -e "compositescenes" -args fname1.tif fname2.tif 
