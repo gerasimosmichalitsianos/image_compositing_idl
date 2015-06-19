@@ -10,7 +10,7 @@ Landsat 7) from two separate scenes close to one another in date. Below is one e
 
 ![alt tag](https://lh5.googleusercontent.com/-cDLYYNWKTJA/VYRBdtD7uoI/AAAAAAAAACs/yOecG2xKaqw/w1358-h442-no/composited.jpg)
 
-The left panel shows the base image (with null scanline data gaps to be filled in), and the middle panel shows the image that was used to fill in the null data gaps in the image in the left panel. Both the left and middle images came from two different Landsat 8 scenes. Both of these Landsat 8 scenes were over the Landsat tile identified by path 185, row 33 (western Greece, islands of Kefalonia and Ithaki). In plain view, in the panels above, one can see the cities of Sami and Karavomylos, both on Kefalonia Island, western Greece. 
+The left panel shows the base image (with null scanline data gaps to be filled in), and the middle panel shows the image that was used to fill in the null data gaps in the image in the left panel. Both the left and middle images came from two different Landsat 8 scenes. The right panel shows the filled-in, composited scene, resulting from the histogram normalization and filling of the scene in the left panel. Both of these Landsat 8 scenes were over the Landsat tile identified by path 185, row 33 (western Greece, islands of Kefalonia and Ithaki). In plain view, in the panels above, one can see the cities of Sami and Karavomylos, both on Kefalonia Island, western Greece. 
 
 usage: 
 
