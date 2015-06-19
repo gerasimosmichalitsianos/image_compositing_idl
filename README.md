@@ -8,6 +8,8 @@ been marked manuallywith a cloud mask or cloud-shadow mask. These IDL files just
 a pair of two 1-band Geotiff image files. Each of these images may for example, be two Band 3 image files (red band for 
 Landsat 7) from two separate scenes close to one another in date.
 
+![alt tag](https://lh5.googleusercontent.com/-cDLYYNWKTJA/VYRBdtD7uoI/AAAAAAAAACs/yOecG2xKaqw/w1358-h442-no/composited.jpg)
+
 usage: 
 
 $ idl 
