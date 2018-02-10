@@ -1,10 +1,8 @@
 ###### INSTRUCTIONS: IMAGE COMPOSITING 
 
-       The purpose of this code is to perform image compositing. 
-       
-       The IDL code files in this repository represent just a simple 
-       example using two 1-band Geotiff files. That is, one single band Geotiff image file is used to fill in 
-       null data gaps in another 1-band Geotiff image file. Null data gaps in Landsat 7 imagery for example, 
+       The purpose of this code is to perform image compositing. The IDL code files in this repository represent 
+       just a simple example using two 1-band Geotiff files. That is, one single band Geotiff image file is used 
+       to fill in null data gaps in another 1-band Geotiff image file. Null data gaps in Landsat 7 imagery for example, 
        have resulted from a spring 2003 scanline malfunction. So for all Landsat 7 imagery after May 31st 2003,
        have linear features present, going across the imagery, whose pixel values are null (no-data, usually a 
        pixel value of -9999). Null data gaps also may have been marked manually with a cloud mask or cloud-shadow mask. 
@@ -14,7 +12,13 @@
 
 ![alt tag](https://lh5.googleusercontent.com/-cDLYYNWKTJA/VYRBdtD7uoI/AAAAAAAAACs/yOecG2xKaqw/w1358-h442-no/composited.jpg)
 
-       The left panel shows the base image (with null scanline data gaps to be filled in), and the middle panel shows the image        that was used to fill in the null data gaps in the image in the left panel. Both the left and middle images came from          two different Landsat 8 scenes. The right panel shows the filled-in, composited scene, resulting from the histogram            normalization and filling of the scene in the left panel. Both of these Landsat 8 scenes were over the Landsat tile            identified by path 185, row 33 (western Greece, islands of Kefalonia and Ithaki). In plain view, in the panels above,          one can see the cities of Sami and Karavomylos, both on Kefalonia Island, western Greece. 
+       The left panel shows the base image (with null scanline data gaps to be filled in), and the middle panel 
+       shows the image that was used to fill in the null data gaps in the image in the left panel. Both the left 
+       and middle images came from two different Landsat 8 scenes. The right panel shows the filled-in, composited 
+       scene, resulting from the histogram normalization and filling of the scene in the left panel. Both of these 
+       Landsat 8 scenes were over the Landsat tile identified by path 185, row 33 (western Greece, islands of Kefalonia
+       and Ithaki). In plain view, in the panels above, one can see the cities of Sami and Karavomylos, 
+       both on Kefalonia Island, western Greece. 
 
 ###### usage: 
 
