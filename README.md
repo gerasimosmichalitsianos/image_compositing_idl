@@ -26,7 +26,7 @@
 
 ###### usage: 
 
-       $ idl
+       $ idl # entering the IDL console from the command line 
        IDL> envi
        IDL> .compile compositescenes
        IDL> .compile createtile
