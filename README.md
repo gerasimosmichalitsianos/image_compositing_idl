@@ -36,5 +36,5 @@
 
 ###### @author:
        Gerasimos Michalitsianos
-       SGT, Inc. 
+       gerasimosmichalitsianos@gmail.com
        Febuary 2018 
