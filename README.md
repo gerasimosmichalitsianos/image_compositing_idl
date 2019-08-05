@@ -13,7 +13,7 @@
        from two separate scenes close to one another in date. Below is one example of using 
        this code. 
 
-![alt tag](https://i.imgur.com/3we6rtp.png)
+![alt tag](https://i.imgur.com/8b03Jbk.png)
 
        The left panel shows the base image (with null scanline data gaps to be filled in), 
        and the middle panel shows the image that was used to fill in the null data gaps in 
