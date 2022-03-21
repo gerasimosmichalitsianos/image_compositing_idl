@@ -1,4 +1,4 @@
-###### INSTRUCTIONS: IMAGE COMPOSITING 
+###### DESCRIPTION
 
        The purpose of this code is to perform image compositing. The IDL code files in 
        this repository represent just a simple example using two 1-band Geotiff files. 
@@ -16,6 +16,8 @@
        Each of these images may for example, be two Band 3 image files (red band for Landsat 7) 
        from two separate scenes close to one another in date. Below is one example of using 
        this code. 
+       
+###### SAMPLE OUTPUT
 
 ![alt tag](https://i.imgur.com/8b03Jbk.png)
 
@@ -28,7 +30,7 @@
        (western Greece, islands of Kefalonia and Ithaki). In plain view, in the panels above, 
        one can see the cities of Sami and Karavomylos, both on Kefalonia Island, western Greece. 
 
-###### usage: 
+###### USAGE: 
 
        $ idl
        IDL> envi
@@ -38,7 +40,7 @@
        IDL> exit
        $ idl -e "compositescenes" -args fname1.tif fname2.tif 
 
-###### @author:
+###### AUTHOR/PROGRAMMER:
        Gerasimos "Geri" Michalitsianos
        gerasimosmichalitsianos@gmail.com
        21 March 2022
