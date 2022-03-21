@@ -41,9 +41,6 @@ pro compositescenes
   ; June 2015 
   ; 
 
-  ; navigate to appropriate directory where Geotiff files are located so IDL/ENVI may open those files
-  cd,'C:\Users\gmichali\Desktop\compositing'
-  
   ; retrieve command line arguments 
   args   = command_line_args() 
   fname1 = args[0]
