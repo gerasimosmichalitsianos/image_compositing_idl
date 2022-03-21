@@ -3,7 +3,11 @@
        The purpose of this code is to perform image compositing. The IDL code files in 
        this repository represent just a simple example using two 1-band Geotiff files. 
        That is, one single band Geotiff image file is used to fill in null data gaps in 
-       another 1-band Geotiff image file. Null data gaps in Landsat 7 imagery for example, 
+       another 1-band Geotiff image file. 
+       
+       *It is expected each will have NoData values of -9999.
+       
+       Null data gaps in Landsat 7 imagery for example, 
        have resulted from a spring 2003 scanline malfunction. So for all Landsat 7 imagery 
        after May 31st 2003, have linear features present, going across the imagery, whose 
        pixel values are null (no-data, usually a pixel value of -9999). Null data gaps also 
@@ -35,6 +39,6 @@
        $ idl -e "compositescenes" -args fname1.tif fname2.tif 
 
 ###### @author:
-       Gerasimos Michalitsianos
+       Gerasimos "Geri" Michalitsianos
        gerasimosmichalitsianos@gmail.com
-       Febuary 2018 
+       21 March 2022
